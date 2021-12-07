@@ -8,7 +8,7 @@
         <h1 class="p-0 m-0">Tareas</h1>
       </div>
 
-      <div class="mt-0">
+      <div class="mt-0" style="margin-bottom:65px;">
         <!-- <div class="offset-md-2 col-lg-4 offset-lg-4 mt-2"> -->
         <div class="row">
           <mat-form-field appearance="fill">
@@ -21,14 +21,7 @@
           </mat-form-field>
         </div>
 
-        <!-- <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
-          <app-item-tarea *cdkVirtualFor="let item of listaTareas" [item]="item" class="mb-0  ">
-
-          </app-item-tarea>
-        </cdk-virtual-scroll-viewport> -->
-
-
-        <app-item-tarea *ngFor="let item of listaTareas" [item]="item" class="mb-0  ">
+        <app-item-tarea *ngFor="let item of listaTareas" [item]="item">
 
         </app-item-tarea>
 
