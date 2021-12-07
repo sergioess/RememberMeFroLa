@@ -1,0 +1,24 @@
+<h1 mat-dialog-title>Editar Categoria</h1>
+
+<div mat-dialog-content>
+
+
+  <div class="row">
+
+    <mat-form-field appearance="outline" class="m-0 pt-0">
+      <!-- <mat-form-field appearance="standard" class="m-0 pt-0"> -->
+      <mat-label>Descripción</mat-label>
+      <input matInput [(ngModel)]="descripcionData" placeholder="Descripción" #input>
+    </mat-form-field>
+  </div>
+
+
+
+</div>
+
+<div class="mt-5" mat-dialog-actions>
+  <!-- <button mat-raised-button color="primary" [disabled]="formInstance.dirty && formInstance.errors" (click)="save()" -->
+  <button mat-raised-button class="bg-primary" (click)="save()" cdkFocusInitial>Yes</button>
+  <button mat-raised-button mat-dialog-close>No</button>
+
+</div>

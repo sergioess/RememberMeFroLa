@@ -1,0 +1,62 @@
+<div class="container mb-5" style="margin-top:95px;">
+  <div class="row">
+
+    <div class="col-md-7 col-sm-12" style="padding-right: 10px;">
+      <!-- <div class="px-3 col-md-8 col-sm-12 offset-md-2 col-lg-4 offset-lg-4 mt-2"> -->
+
+      <div class="text-center mb-0 mt-1 p-0">
+        <h1 class="p-0 m-0">Tareas</h1>
+      </div>
+
+      <div class="mt-0">
+        <!-- <div class="offset-md-2 col-lg-4 offset-lg-4 mt-2"> -->
+        <div class="row">
+          <mat-form-field appearance="fill">
+            <mat-label>Categoria</mat-label>
+            <mat-select [(value)]="selected" (selectionChange)="filtroCategorias($event.value)"
+              [(ngModel)]="categoriaSeleccionada">
+              <mat-option value=0>None</mat-option>
+              <mat-option *ngFor="let item of listaCategorias" value="{{item.id}}">{{item.descripcion}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!-- <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+          <app-item-tarea *cdkVirtualFor="let item of listaTareas" [item]="item" class="mb-0  ">
+
+          </app-item-tarea>
+        </cdk-virtual-scroll-viewport> -->
+
+
+        <app-item-tarea *ngFor="let item of listaTareas" [item]="item" class="mb-0  ">
+
+        </app-item-tarea>
+
+      </div>
+
+    </div>
+
+    <div class="col-md-5 d-none d-md-block" style="padding-left: 0px; border-left: 1px solid #2F86A6">
+      <app-lista-bitacora></app-lista-bitacora>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+<footer class="page-footer font-small purple pt-1 fixed-bottom px-1">
+  <div class=" row p-0">
+    <div class="form-floating col">
+      <input [(ngModel)]="tituloNuevaTarea" type="text" class="form-control" id="floatingInput"
+        placeholder="Descriptión de la Tarea" maxlength="50">
+      <label for="floatingInput">Tarea Rápida</label>
+
+    </div>
+    <div class="col-auto  ">
+      <button mat-raised-button (click)="tareaRapida()" color="primary" [mat-dialog-close]
+        class="text-center mt-2">Agregar</button>
+    </div>
+  </div>
+</footer>

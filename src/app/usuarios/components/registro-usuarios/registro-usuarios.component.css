@@ -1,0 +1,30 @@
+
+  #login .container #login-row #login-column #login-box {
+    margin-top: 20px;
+    max-width: 550px;
+    height: 480px;
+    border: 1px solid #9C9C9C;
+    background-color: #f1f2f6;
+    /* background-color: #2F86A6; */
+  }
+  #login .container #login-row #login-column #login-box #login-form {
+    padding: 20px;
+  }
+
+  #login .container #login-row #login-column #login-box #login-form .text-info-label{
+    color:#2c3e50;
+    margin-top:10px;
+  }
+
+  .text-info-label-azul{
+    color:#2F86A6;
+  }
+
+  #login .container #login-row #login-column #login-box #login-form #register-link {
+    margin-top: -85px;
+  }
+
+  .text-danger{
+    text-align: start;
+    margin-left: 7px;
+  }

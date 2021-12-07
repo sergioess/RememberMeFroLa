@@ -1,0 +1,35 @@
+<div class="container form-signin" style="margin-top:125px;">
+  <div>
+    <h1 class="text-center">RememberMe</h1>
+    <h1 class="h3 mb-3 fw-normal">Inicio Sesión</h1>
+
+    <div class="form-floating">
+      <input type="email" [(ngModel)]="correo" class="form-control" id="floatingInput" placeholder="name@example.com">
+      <label for="floatingInput">Correo Electrónico</label>
+    </div>
+    <div class="form-floating mt-2">
+      <input type="password" [(ngModel)]="passwordIngresado" class="form-control" id="floatingPassword"
+        placeholder="Password">
+      <label for="floatingPassword">Contraseña</label>
+    </div>
+
+    <!-- <div class="checkbox mb-3">
+      <label>
+        <input type="checkbox" value="remember-me"> Remember me
+      </label>
+    </div> -->
+    <div class="row">
+      <div class="col-sm-12 col-md-6 ">
+        <button mat-raised-button (click)="loginIntent()" color="primary" class="text-center mt-2">Ingresar</button>
+      </div>
+      <div class="col-sm-12 col-md-6 ">
+        <button mat-raised-button (click)="registrar()" color="accent" class="text-center mt-2">Crear Cuenta</button>
+      </div>
+    </div>
+    <!-- <p>Usar: batman@correo.com, 1234</p> -->
+
+
+
+  </div>
+
+</div>

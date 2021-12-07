@@ -1,0 +1,28 @@
+<div class="container">
+  <h1 mat-dialog-title>Editar Rol del Colaborador </h1>
+
+  <div mat-dialog-content>
+
+    <div class="row">
+      <h3>Colaborador: @{{ tableroColaborador.username}}</h3>
+    </div>
+    <div class="row">
+
+
+      <mat-select [(value)]="selected" [(ngModel)]="elRol">
+        <mat-option [value]="1">Colabordor</mat-option>
+        <mat-option [value]="2">Editor</mat-option>
+      </mat-select>
+    </div>
+
+
+
+  </div>
+
+  <div class="mt-5" mat-dialog-actions>
+    <button mat-raised-button class="bg-primary" (click)="save()" cdkFocusInitial>Actualizar</button>
+    <!-- <button mat-raised-button mat-dialog-close>No</button> -->
+
+  </div>
+
+</div>

@@ -1,0 +1,8 @@
+.mat-card {
+  /* border-radius: 10px !important;
+  border-color: black; */
+  border-color: rgba(190, 186, 186, 0.787) ;
+  box-shadow: 5px 5px 12px -4px #30150E;
+
+  background-color:#8cd1e2;
+}

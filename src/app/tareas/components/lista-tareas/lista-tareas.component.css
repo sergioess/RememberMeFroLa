@@ -1,0 +1,24 @@
+.app-item-tarea {
+  margin-bottom: 200px;
+}
+.red-snackbar{
+  background-color: rgb(153, 50, 50);
+  color:lightgoldenrodyellow;
+}
+
+.example-viewport {
+  height: 500px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+}
+
+.example-item {
+  height: 50px;
+}
+
+.page-footer {
+  background-color: #182520;
+}
+

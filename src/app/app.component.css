@@ -1,0 +1,55 @@
+table {
+    width: 100%;
+  }
+
+
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+
+
+
+  mat-drawer-container{
+    background-color: #E8E8CC;
+    height: 100%;
+  }
+
+  mat-toolbar{
+    background-color: #2F86A6;
+    color: #fff;
+  }
+
+  a {
+    color: #FFFFFF;
+    text-decoration: none;
+  }
+  a:link, a:visited {
+    color: #FFFFFF;
+  }
+
+
+
+  /* Usuario */
+
+  .card {
+    width: 300px;
+    background-color: #efefef;
+    border: none;
+    cursor: pointer;
+    transition: all 0.5s
+}
+
+.image img {
+    transition: all 0.5s
+}
+
+.card:hover .image img {
+    transform: scale(1.5)
+}
+
+
+
+.name {
+    font-size: 22px;
+    font-weight: bold
+}

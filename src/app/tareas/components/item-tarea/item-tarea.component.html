@@ -1,0 +1,69 @@
+<!-- <div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">
+
+        {{item.titulo}}
+      </h5>
+      <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      <a href="#" class="card-link">Card link</a>
+      <a href="#" class="card-link">Another link</a>
+    </div>
+  </div>
+   -->
+
+
+<div class="card mt-2" (click)="openDialog(item)">
+  <div class="card-body px-2 py-2  ">
+    <div class="row align-content-between    p-0 ">
+      <div class="col-11   p-0 ">
+        <div class="row  p-0 px-2">
+          <div class="col-1  ">
+            <img src="{{iconoPrioridad}}" alt="image" style="width:20px">
+          </div>
+          <div class="col-11">
+
+            {{item.titulo}}
+
+          </div>
+
+        </div>
+        <div class="row  p-0 ">
+          <div class="col-8 ">
+            <div class="row  py-0 ps-1">
+              <div class="col-6 ">
+                <div class="d-flex  {{ colorFecha }}" matTooltip="Fecha límite" matTooltipClass="custom-tooltip">
+                  <mat-icon>date_range</mat-icon>
+                  <span class=" align-middle ms-1"> {{ item.fechalimite | date :
+                    'dd/MM/yyyy' }} </span>
+                </div>
+
+              </div>
+              <div class="col-6 align-middle {{ colorAtrasada }}" matTooltip="Tarea que debería estar Finalizada"
+                matTooltipClass="custom-tooltip">
+                Atrasadas
+              </div>
+            </div>
+
+          </div>
+          <div class="col-4 align-middle">
+            <div class="row p-0 m-0 border border-dark barraEstado">
+              <div class="col-4 {{color1}} text-danger" (click)="cambiaEstado(1)">
+
+              </div>
+              <div class="col-4 {{color2}} text-secondary" (click)="cambiaEstado(2)">
+
+              </div>
+              <div class="col-4 {{color3}} text-warning" (click)="cambiaEstado(3)">
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-1 p-0 align-self-end" matTooltip="Tarea Repetitiva" matTooltipClass="custom-tooltip">
+        <mat-icon>refresh</mat-icon>
+      </div>
+    </div>
+  </div>
+</div>
