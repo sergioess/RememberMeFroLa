@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Tarea } from '../models/tarea'
 import { Observable } from 'rxjs';
+import { FiltroTarea } from '../models/filtro-tarea';
 
 @Injectable({
   providedIn: 'root'
@@ -59,5 +60,12 @@ export class TareasServiceService {
     return this.http.get<Tarea[]>(this.url + 'tareastablero' + '/' + id_tablero);
 
   }
+
+  getTareasFiltered(data: FiltroTarea, id: number): Observable<any> {
+    return this.http.post(this.url + 'tareasfiltro/' + id, data);
+
+  }
+
+
 
 }

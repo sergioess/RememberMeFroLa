@@ -26,6 +26,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatRadioModule } from '@angular/material/radio';
 
 
 
@@ -58,6 +59,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
     MatSidenavModule,
     MatMenuModule,
     MatBottomSheetModule,
+    MatRadioModule
   ]
   , exports: [
     MatCardModule,
@@ -85,6 +87,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
     MatSidenavModule,
     MatMenuModule,
     MatBottomSheetModule,
+    MatRadioModule
 
   ]
 })
