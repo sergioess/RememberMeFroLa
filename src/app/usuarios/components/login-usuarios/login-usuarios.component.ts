@@ -62,10 +62,10 @@ export class LoginUsuariosComponent implements OnInit {
       // console.log("Numero " + numero);
       let texto: string = numero.toString();
       // console.log("Texto " + texto);
-      sessionStorage.setItem('isLoggedIn', "true");
-      sessionStorage.setItem('token', token);
-      sessionStorage.setItem('user', texto);
+      localStorage.setItem('isLoggedIn', "true");
+      localStorage.setItem('token', token);
       localStorage.setItem('user', texto);
+      // localStorage.setItem('user', texto);
       this.router.navigate(["tareas"]);
 
 
