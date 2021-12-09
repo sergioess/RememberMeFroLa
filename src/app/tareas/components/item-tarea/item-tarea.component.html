@@ -62,7 +62,10 @@
         </div>
       </div>
       <div class="col-1 p-0 align-self-end" matTooltip="Tarea Repetitiva" matTooltipClass="custom-tooltip">
-        <mat-icon>refresh</mat-icon>
+        <!-- <mat-icon>refresh</mat-icon> -->
+        <div class="p-0 m-0 tablero-icono" *ngIf="item.id_tablero" placement="bottom" ngbTooltip="{{item.tablero}}">
+          <mat-icon> table_chart</mat-icon>
+        </div>
       </div>
     </div>
   </div>

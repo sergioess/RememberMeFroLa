@@ -65,75 +65,172 @@
 <!-- <pre class="card card-block card-header">Agregar Colaborador</pre> -->
 <ng-template #template>
   <div class="modal-body ">
-    <p>Filtros</p>
+    <div class="row text-center">
+      <h2>Filtros</h2>
 
-    <p>Categoria</p>
-    <select class="form-select" aria-label="Default select example" [(ngModel)]="categoriaSeleccionadaFiltro">
-      <option selected value="0">None</option>
-      <option *ngFor="let item2 of listaCategoriasFiltro" value="{{item2.id}}">{{item2.descripcion}}</option>
-    </select>
+    </div>
 
-    <!-- <mat-form-field appearance="fill" class="w-100 p-0">
-      <mat-label>Categoria</mat-label>
-      <mat-select [(ngModel)]="categoriaSeleccionadaFiltro">
-        <mat-option value=0>None</mat-option>
-        <mat-option *ngFor="let item2 of listaCategoriasFiltro" value="{{item2.id}}">{{item2.descripcion}}</mat-option>
-      </mat-select>
-    </mat-form-field> -->
 
-    <p>Prioridad</p>
-    <mat-radio-group aria-label="Prioridad" [(ngModel)]="prioridad">
-      <div class="d-flex justify-content-between">
-        <div class="col-2 p-0">
-          <mat-radio-button value="1"></mat-radio-button>
-          <span>1</span>
-        </div>
-        <div class="col-2 p-0">
-          <mat-radio-button value="2"></mat-radio-button>
-          <span>2</span>
-        </div>
-        <div class="col-2 p-0">
-          <mat-radio-button value="3"></mat-radio-button>
-          <span>3</span>
-        </div>
-        <div class="col-2 p-0">
-          <mat-radio-button value="4"></mat-radio-button>
-          <span>4</span>
-        </div>
-        <div class="col-2 p-0">
-          <mat-radio-button value="5"></mat-radio-button>
-          <span>5</span>
-        </div>
+    <div class="row p-2">
+      <mat-card class="example-card">
+        <mat-card-title>
+          <p>Categoria</p>
+        </mat-card-title>
+
+        <mat-card-content>
+          <select class="form-select" aria-label="Default select example" [(ngModel)]="categoriaSeleccionadaFiltro">
+            <option selected value="0">None</option>
+            <option *ngFor="let item2 of listaCategoriasFiltro" value="{{item2.id}}">{{item2.descripcion}}</option>
+          </select>
+        </mat-card-content>
+
+      </mat-card>
+    </div>
+
+    <div class="row p-2">
+      <mat-card class="example-card">
+        <mat-card-title>
+          <p>Prioridad</p>
+        </mat-card-title>
+
+        <mat-card-content>
+          <mat-radio-group aria-label="Prioridad" [(ngModel)]="prioridad">
+            <div class="d-flex justify-content-between">
+              <div class="col-2 p-0">
+                <mat-radio-button value="1"></mat-radio-button>
+                <span>1</span>
+              </div>
+              <div class="col-2 p-0">
+                <mat-radio-button value="2"></mat-radio-button>
+                <span>2</span>
+              </div>
+              <div class="col-2 p-0">
+                <mat-radio-button value="3"></mat-radio-button>
+                <span>3</span>
+              </div>
+              <div class="col-2 p-0">
+                <mat-radio-button value="4"></mat-radio-button>
+                <span>4</span>
+              </div>
+              <div class="col-2 p-0">
+                <mat-radio-button value="5"></mat-radio-button>
+                <span>5</span>
+              </div>
+
+            </div>
+          </mat-radio-group>
+        </mat-card-content>
+
+      </mat-card>
+    </div>
+
+
+    <div class="row p-2">
+      <mat-card class="example-card">
+        <mat-card-title>
+          <p>Estado</p>
+        </mat-card-title>
+
+        <mat-card-content>
+          <mat-radio-group aria-label="Estado" [(ngModel)]="estado">
+            <div class="d-flex justify-content-between">
+              <div class="col-4 p-0">
+                <mat-radio-button value="1"></mat-radio-button>
+                <span>Creado</span>
+              </div>
+              <div class="col-4 p-0">
+                <mat-radio-button value="2"></mat-radio-button>
+                <span>En Proceso</span>
+              </div>
+              <div class="col-4 p-0">
+                <mat-radio-button value="3"></mat-radio-button>
+                <span>Terminado</span>
+              </div>
+
+
+            </div>
+          </mat-radio-group>
+        </mat-card-content>
+
+      </mat-card>
+    </div>
+
+    <div class="row p-2">
+
+      <mat-card class="example-card">
+        <mat-card-title>
+          <p>Fecha</p>
+        </mat-card-title>
+        <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+        <mat-card-content>
+          <mat-radio-group aria-label="Fecha" [(ngModel)]="fechaFiltro">
+            <div class="d-flex justify-content-between">
+              <div class="col-4 p-0">
+                <mat-radio-button value="1"></mat-radio-button>
+                <span>Creación</span>
+              </div>
+              <div class="col-4 p-0">
+                <mat-radio-button value="2"></mat-radio-button>
+                <span>Límite</span>
+              </div>
+            </div>
+          </mat-radio-group>
+        </mat-card-content>
+        <mat-card-actions>
+          <div class="row">
+            <div class="col">
+              <form class="form-inline">
+                <div class="form-group">
+                  <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [displayMonths]="displayMonths"
+                      [navigation]="navigation" [outsideDays]="outsideDays" [showWeekNumbers]="showWeekNumbers"
+                      ngbDatepicker #d="ngbDatepicker" [(ngModel)]="modelDesde">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                        <mat-icon>date_range</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="col">
+              <form class="form-inline">
+                <div class="form-group">
+                  <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd" name="dp2" [displayMonths]="displayMonths"
+                      [navigation]="navigation" [outsideDays]="outsideDays" [showWeekNumbers]="showWeekNumbers"
+                      ngbDatepicker #d2="ngbDatepicker" [(ngModel)]="modelHasta">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button">
+                        <mat-icon>date_range</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+
+        </mat-card-actions>
+      </mat-card>
+
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-6 col-sm-12 ">
+        <button type="button" class="btn btn-primary  btn-block" (click)="hacerFiltro()"
+          style="width:100%">Filtro</button>
 
       </div>
-    </mat-radio-group>
-
-    <hr>
-
-    <br>
-    <p>Estado</p>
-    <mat-radio-group aria-label="Estado" [(ngModel)]="estado">
-      <div class="d-flex justify-content-between">
-        <div class="col-4 p-0">
-          <mat-radio-button value="1"></mat-radio-button>
-          <span>Creado</span>
-        </div>
-        <div class="col-4 p-0">
-          <mat-radio-button value="2"></mat-radio-button>
-          <span>En Proceso</span>
-        </div>
-        <div class="col-4 p-0">
-          <mat-radio-button value="3"></mat-radio-button>
-          <span>Terminado</span>
-        </div>
-
+      <div class="col-md-6 col-sm-12 mt-2">
+        <button type="button" class="btn btn-success btn-block " (click)="limpiarFiltro()" style="width:100%">Limpiar
+          Filtros</button>
 
       </div>
-    </mat-radio-group>
-    <br>
-    <hr>
-    <br>
+    </div>
 
-    <button type="button" class="btn btn-primary pull-right" (click)="hacerFiltro()">Filtro</button>
+    <!-- <span>{{modelDesde.day}}</span> -->
   </div>
 </ng-template>

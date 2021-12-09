@@ -116,7 +116,27 @@
 
   </div>
 
+  <!-- Tablero -->
 
+  <div *ngIf="datoTarea.id_tablero">
+    <mat-card class="example-card">
+      <mat-card-title>
+        <p>Asigna Tarea</p>
+      </mat-card-title>
+
+      <mat-card-content>
+        <mat-form-field appearance="fill">
+          <mat-label>Colaborador</mat-label>
+          <mat-select [(value)]="selected" [(ngModel)]="datoTarea.id_usuario_asignado">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let item of listaColaboradores" [value]="item.cid">{{item.username}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+
+    </mat-card>
+  </div>
 
   <hr>
   <div mat-dialog-actions class="row justify-content-center mt-0 mb-1">

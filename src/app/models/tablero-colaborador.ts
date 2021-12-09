@@ -6,4 +6,5 @@ export class TableroColaborador {
   rol: number = 0;
   aceptado: boolean = false;
   username: string = '';
+  cid: number = 0;
 }

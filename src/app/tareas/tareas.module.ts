@@ -12,7 +12,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { AngularMaterialModule } from '../angular-material/angular-material.module';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { BitacoraModule } from '../bitacora/bitacora.module';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -33,7 +33,8 @@ import { BitacoraModule } from '../bitacora/bitacora.module';
     MatDatepickerModule,
     MatNativeDateModule,
     ScrollingModule,
-    BitacoraModule
+    BitacoraModule,
+    NgbModule,
   ],
   providers: [
     TareasServiceService

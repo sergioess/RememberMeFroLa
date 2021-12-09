@@ -67,5 +67,10 @@ export class TareasServiceService {
   }
 
 
+  deleteTarea(id: number): Observable<any> {
+    // console.log(this.http.get<Tarea[]>(this.url + '/tareas'))
+    // return this.items;
+    return this.http.delete<any>(this.url + 'tareas' + '/' + id);
+  }
 
 }

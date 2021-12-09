@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Tarea } from 'src/app/models/tarea';
 import { TareasServiceService } from 'src/app/services/tareas-service.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { duration } from 'moment';
+import * as moment from 'moment';
 import { BitacoraService } from 'src/app/services/bitacora.service';
 import { Bitacora } from '../../../models/bitacora';
 import { Categoria } from 'src/app/models/categoria';
@@ -10,6 +10,8 @@ import { CategoriasServiceService } from 'src/app/services/categorias-service.se
 import { Utils } from 'src/app/common/utils';
 import { ToastrService } from 'ngx-toastr';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+//Datepicker
+import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 
 //Proteger Rura
 import { UsuariosService } from '../../../services/usuarios.service';
@@ -25,17 +27,41 @@ import { FiltroTarea } from '../../../models/filtro-tarea';
 })
 export class ListaTareasComponent implements OnInit {
   listaCategorias: Categoria[] = [];
-  listaCategoriasFiltro: Categoria[] = [];
-  categoriaSeleccionadaFiltro: number = 0;
+
   listaTareas: Tarea[] = [];
   tituloNuevaTarea: string = "";
   selected = 'none';
   categoriaSeleccionada: number = 0;
 
+
+
+
+  // Datos en la ventana modal
+  displayMonths = 1;
+  navigation = 'select';
+  showWeekNumbers = false;
+  outsideDays = 'visible';
+  modelDesde: NgbDateStruct = {
+    "year": 2021,
+    "month": 12,
+    "day": 18
+  };
+  modelHasta: NgbDateStruct = {
+    "year": 2021,
+    "month": 12,
+    "day": 18
+  };
+  date: { year: number, month: number } = {
+    "year": 2021,
+    "month": 12
+  };
+
+  listaCategoriasFiltro: Categoria[] = [];
+  categoriaSeleccionadaFiltro: number = 0;
+  fechaFiltro: number = 0;
   prioridad: number = 0;
   estado: number = 0;
 
-  // Datos en la ventana modal
 
   constructor(private tareaService: TareasServiceService,
     private _snackBar: MatSnackBar,
@@ -45,10 +71,12 @@ export class ListaTareasComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private modalService: NgbModal,
+    private calendar: NgbCalendar,
     private _bitacoraRefreshService: BitacoraRefreshService) { }
 
   ngOnInit(): void {
-
+    this.modelDesde = this.calendar.getToday();
+    this.modelHasta = this.calendar.getToday();
     Utils.prevURL = "tareas";
 
     if (this.usuarioService.isAuthenticated()) {
@@ -71,7 +99,7 @@ export class ListaTareasComponent implements OnInit {
     // console.log(Utils.currentUser.id);
     this.tareaService.getTareasUsuario(Utils.currentUser.id).subscribe(tareas => {
       this.listaTareas = tareas;
-      const lista = JSON.stringify(tareas);
+      // const lista = JSON.stringify(tareas);
       // console.log(lista);
 
     });
@@ -79,26 +107,31 @@ export class ListaTareasComponent implements OnInit {
   }
   tareaRapida() {
     // console.log(this.tituloNuevaTarea);
-    let nuevaTarea = new Tarea();
-    nuevaTarea.titulo = this.tituloNuevaTarea;
-    nuevaTarea.descripcion = "";
-    nuevaTarea.id_usuario = Utils.currentUser.id;
-    this.tareaService.createTarea(nuevaTarea).subscribe(tareas => {
 
-      const lista = JSON.stringify(tareas);
-      console.log(tareas);
-      this.tituloNuevaTarea = "";
-      this.traerTareas();
-      let tareaJustCreated = new Tarea();
-      tareaJustCreated = tareas;
-      // this.listaTareas.push(tareaJustCreated);
+    if (this.tituloNuevaTarea) {
+      let nuevaTarea = new Tarea();
+      nuevaTarea.titulo = this.tituloNuevaTarea;
+      nuevaTarea.descripcion = "";
+      nuevaTarea.id_usuario = Utils.currentUser.id;
+      this.tareaService.createTarea(nuevaTarea).subscribe(tareas => {
 
-      this.toastr.success('Tarea Creada', 'Tareas', { positionClass: 'toast-top-center' });
-      // this._snackBar.open("Tarea Creada", 'Dismiss', { duration: 2000, verticalPosition: 'bottom', panelClass: ['red-snackbar'] });
+        const lista = JSON.stringify(tareas);
+        console.log(tareas);
+        this.tituloNuevaTarea = "";
+        this.traerTareas();
+        let tareaJustCreated = new Tarea();
+        tareaJustCreated = tareas;
+        // this.listaTareas.push(tareaJustCreated);
 
-      this.crearRegistroBitacora(tareaJustCreated);
+        this.toastr.success('Tarea Creada', 'Tareas', { positionClass: 'toast-top-center' });
+        // this._snackBar.open("Tarea Creada", 'Dismiss', { duration: 2000, verticalPosition: 'bottom', panelClass: ['red-snackbar'] });
 
-    });
+        this.crearRegistroBitacora(tareaJustCreated);
+
+      });
+    }
+
+
 
   }
 
@@ -110,10 +143,10 @@ export class ListaTareasComponent implements OnInit {
 
     this.bitacoraService.createBitacora(bitacoraNew).subscribe(bitacora => {
 
-      const lista = JSON.stringify(bitacora);
+      // const lista = JSON.stringify(bitacora);
       // console.log(lista);
-      let bicacoraJustCreated = new Bitacora();
-      bicacoraJustCreated = bitacora.body.tarea;
+      // let bicacoraJustCreated = new Bitacora();
+      // bicacoraJustCreated = bitacora.body.tarea;
       // console.log(bicacoraJustCreated)
     });
 
@@ -128,7 +161,7 @@ export class ListaTareasComponent implements OnInit {
       this.listaCategorias = categorias;
       this.listaCategoriasFiltro = categorias;
       const lista = JSON.stringify(categorias);
-      console.log(lista);
+      // console.log(lista);
 
     });
 
@@ -173,30 +206,56 @@ export class ListaTareasComponent implements OnInit {
   // this.modalService.open(content, { centered: true });
 
   hacerFiltro() {
-    console.log(this.estado);
-    if (this.estado && this.prioridad) {
-      console.log("esatado y prioridad");
-    }
-    else if (this.estado) {
-      console.log("esatado");
-    }
-    else if (this.prioridad) {
-      console.log(" prioridad");
-    } else if (this.categoriaSeleccionadaFiltro) {
-      console.log(" categoria");
-    }
+    // console.log(this.estado);
+    // if (this.estado && this.prioridad) {
+    //   console.log("esatado y prioridad");
+    // }
+    // else if (this.estado) {
+    //   console.log("esatado");
+    // }
+    // else if (this.prioridad) {
+    //   console.log(" prioridad");
+    // } else if (this.categoriaSeleccionadaFiltro) {
+    //   console.log(" categoria");
+    // }
 
-    const sumaVariables = this.categoriaSeleccionadaFiltro + this.estado + this.prioridad;
+    const sumaVariables = this.categoriaSeleccionadaFiltro + this.estado + this.prioridad + this.fechaFiltro;
     if (sumaVariables > 0) {
       let filtro = new FiltroTarea();
       filtro.estado = this.estado;
       filtro.categoria = this.categoriaSeleccionadaFiltro;
       filtro.prioridad = this.prioridad;
+      filtro.filtrofecha = this.fechaFiltro;
+
+      if (this.fechaFiltro > 0) {
+        moment.locale('es');
+        let myDate = moment(this.modelDesde.year + "/" + this.modelDesde.month + "/" + this.modelDesde.day).format('L');
+        let myDate2 = moment(this.modelHasta.year + "/" + this.modelHasta.month + "/" + this.modelHasta.day).format('L');
+
+        // console.log(myDate + "- " + myDate2);
+
+        // if (moment(myDate).isSame(myDate2)) {
+        //   console.log("igual ");
+        // }
+        // if (moment(myDate).isBefore(myDate2)) {
+        //   console.log("menor");
+        // }
+
+        if (moment(myDate).isAfter(myDate2)) {
+          console.log("mayor");
+          filtro.filtrofecha = 0;
+          this.toastr.success('Fecha inválidas', 'Tareas', { positionClass: 'toast-top-center' });
+        }
+
+      }
+
+      filtro.fechadesde = this.modelDesde.year + "-" + this.modelDesde.month + "-" + this.modelDesde.day;
+      filtro.fechahasta = this.modelHasta.year + "-" + this.modelHasta.month + "-" + this.modelHasta.day;
 
       this.tareaService.getTareasFiltered(filtro, Utils.currentUser.id).subscribe(tareas => {
         this.listaTareas = tareas;
         const lista = JSON.stringify(tareas);
-        console.log(lista);
+        // console.log(lista);
 
       });
 
@@ -206,6 +265,18 @@ export class ListaTareasComponent implements OnInit {
     this.estado = 0;
     this.prioridad = 0;
     this.categoriaSeleccionadaFiltro = 0;
+    this.modalService.dismissAll();
+    this.fechaFiltro = 0;
+  }
+
+  limpiarFiltro() {
+    this.modelDesde = this.calendar.getToday();
+    this.modelHasta = this.calendar.getToday();
+    Utils.prevURL = "tareas";
+
+    this.traerTareas();
+    this.traerCategorias(Utils.currentUser.id);
+
     this.modalService.dismissAll();
   }
 

@@ -10,10 +10,14 @@ import { BitacoraService } from 'src/app/services/bitacora.service';
 import { Categoria } from 'src/app/models/categoria';
 import { CategoriasServiceService } from 'src/app/services/categorias-service.service';
 import { Utils } from '../../../common/utils';
+import { ToastrService } from 'ngx-toastr';
 import { BitacoraRefreshService } from '../../../services/bitacora-refresh.service';
 import { TablerosService } from 'src/app/services/tableros.service';
+import { NotificationsService } from '../../../services/notifications.service';
 
 import * as _moment from 'moment';
+import { TableroColaborador } from '../../../models/tablero-colaborador';
+import { Notificacion } from '../../../models/notificacion';
 
 
 @Component({
@@ -23,6 +27,8 @@ import * as _moment from 'moment';
 })
 export class TareaDetailComponent implements OnInit {
   listaCategorias: Categoria[] = [];
+  listaColaboradores: TableroColaborador[] = [];
+  colaboradorSeleccionado: number = 0;
   selected = 'none';
 
 
@@ -53,6 +59,8 @@ export class TareaDetailComponent implements OnInit {
     private bitacoraService: BitacoraService,
     private categoriaService: CategoriasServiceService,
     private _bitacoraRefreshService: BitacoraRefreshService,
+    private toastr: ToastrService,
+    private notificationService: NotificationsService,
     private tablerosService: TablerosService,
   ) {
     this.dateAdapter.setLocale('es-CO'); //dd/MM/yyyy
@@ -60,12 +68,29 @@ export class TareaDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.datoTarea = this.data.item;
+    // console.log("Datos de la tarea" + JSON.stringify(this.datoTarea));
     this.cambiaEstado(this.datoTarea.estado);
     this.prioridad(this.datoTarea.prioridad);
     this.fechaLimiteDetalle = this.datoTarea.fechalimite;
     this.estadoActualTarea = this.datoTarea.estado;
     this.prioridadActualTarea = this.datoTarea.prioridad;
     this.traerCategorias(Utils.currentUser.id);
+    this.colaboradorSeleccionado = this.datoTarea.id_usuario_asignado;
+
+    if (this.datoTarea.id_tablero) {
+      this.TraeColaboradores();
+    }
+
+  }
+
+  TraeColaboradores() {
+    // console.log("Busca Colaboradores");
+    this.tablerosService.getColaboradoesTablero(this.datoTarea.id_tablero).subscribe(colaboradores => {
+      this.listaColaboradores = colaboradores;
+      const lista = JSON.stringify(colaboradores);
+      // console.log("Lista Colaboradores" + lista);
+
+    });
   }
 
   prioridad(priorSel: number): void {
@@ -153,12 +178,34 @@ export class TareaDetailComponent implements OnInit {
         texto += " Prioridad cambia a " + this.datoTarea.prioridad;
       }
 
+      if (this.colaboradorSeleccionado !== this.datoTarea.id_usuario_asignado) {
+        console.log("Cambio de colaborador");
+        //TODO:
+        //Crear notificacion tarea asignada
+        let mensaje = "Le ha sido asignada la Tarea '" + this.datoTarea.titulo + "' del Tablero '" + this.datoTarea.tablero + "' creado por @" + Utils.currentUser.username;
+        let notificacionNew: Notificacion = new Notificacion();
+        notificacionNew.id_usr_recibe = this.datoTarea.id_usuario_asignado;
+        notificacionNew.id_usr_send = Utils.currentUser.id;
+        notificacionNew.description = mensaje;
+        notificacionNew.type_notification = 2;
+        notificacionNew.id_objeto = this.datoTarea.id_tablero;
+
+        console.log(JSON.stringify("Nueva Notificacion: " + notificacionNew));
+
+        this.notificationService.createNotificacion(notificacionNew).subscribe(notifica => {
+          const lista = JSON.stringify(notifica);
+          console.log(lista);
+        });
+
+
+      }
+
       this.crearRegistroBitacora(texto);
 
-      console.log("Ruta a Abrir: " + Utils.prevURL);
+      // console.log("Ruta a Abrir: " + Utils.prevURL);
       this.router.navigate([Utils.prevURL]);
 
-      //TODO:
+
       this._bitacoraRefreshService.sendValor(1);
 
     });
@@ -170,25 +217,25 @@ export class TareaDetailComponent implements OnInit {
     bitacoraNew.id_tareas = this.datoTarea.id;
     bitacoraNew.id_usuario = Utils.currentUser.id;
     bitacoraNew.id_usuario_crea = Utils.currentUser.id;
-    const lista = JSON.stringify(bitacoraNew);
-    console.log("Bitacora Usuario: " + lista);
+    // const lista = JSON.stringify(bitacoraNew);
+    // console.log("Bitacora Usuario: " + lista);
     this.bitacoraService.createBitacora(bitacoraNew).subscribe(bitacora => {
 
       const lista = JSON.stringify(bitacora);
       // console.log(lista);
-      let bicacoraJustCreated = new Bitacora();
-      bicacoraJustCreated = bitacora.body.tarea;
+      // let bicacoraJustCreated = new Bitacora();
+      // bicacoraJustCreated = bitacora.body.tarea;
       // console.log(bicacoraJustCreated)
     });
 
-    console.log("Id tablero: " + this.datoTarea.id_tablero);
+    // console.log("Id tablero: " + this.datoTarea.id_tablero);
 
     if (this.datoTarea.id_tablero > 0) {
       this.tablerosService.getTableroTarea(this.datoTarea.id_tablero).subscribe(tablero => {
 
         const lista = JSON.stringify(tablero);
-        console.log("Busca el tablero de la tarea: " + tablero);
-        console.log("Busca el tablero de la tarea: " + lista);
+        // console.log("Busca el tablero de la tarea: " + tablero);
+        // console.log("Busca el tablero de la tarea: " + lista);
         let bitacoraNew2 = new Bitacora();
         bitacoraNew2.descripcion = texto;
         bitacoraNew2.id_tareas = this.datoTarea.id;
@@ -214,16 +261,27 @@ export class TareaDetailComponent implements OnInit {
 
   navigate(ruta: string) {
     // console.log(serie);
-    this.router.routeReuseStrategy.shouldReuseRoute = () => true;
-    this.router.onSameUrlNavigation = 'ignore';
+    // this.router.routeReuseStrategy.shouldReuseRoute = () => true;
+    // this.router.onSameUrlNavigation = 'ignore';
     this.router.navigate([ruta]);
   }
 
   eliminar() {
     // console.log("Click eliminar");
-    this._snackBar.open("Tarea Eliminada", 'Dismiss', { duration: 3000, verticalPosition: 'bottom', panelClass: ['red-snackbar'] });
-    this.crearRegistroBitacora("Tarea Eliminada");
-    this.navigate("/");
+    this.tareaService.deleteTarea(this.datoTarea.id).subscribe(tareas => {
+
+      // const lista = JSON.stringify(tareas);
+      // console.log(lista);
+      this.toastr.success('Tarea Eliminada', 'Tareas', { positionClass: 'toast-top-center' });
+      this.crearRegistroBitacora("Tarea Eliminada");
+
+      let currentUrl = this.router.url;
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['tareas']);
+      });
+
+    });
+
   }
 
   esChecked(): void {
