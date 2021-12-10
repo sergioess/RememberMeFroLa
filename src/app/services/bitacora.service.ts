@@ -12,7 +12,8 @@ export class BitacoraService {
   constructor(private http: HttpClient) { }
 
   // url: string = 'https://remembermebackend.herokuapp.com/api/';
-  url: string = 'http://localhost:8000/api/';
+  // url: string = 'http://localhost:8000/api/';
+  url: string = 'https://trattoria.com.co/apirem/api/';
 
   getBitacora(id: number): Observable<Bitacora[]> {
     // console.log(this.http.get<Bitacora[]>(this.url + '/bitacora' + '/' + id))

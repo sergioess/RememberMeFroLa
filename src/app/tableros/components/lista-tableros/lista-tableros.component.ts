@@ -6,7 +6,8 @@ import { Utils } from '../../../common/utils';
 import { TablerosService } from 'src/app/services/tableros.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { BitacoraRefreshService } from '../../../services/bitacora-refresh.service';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-lista-tableros',
@@ -24,7 +25,9 @@ export class ListaTablerosComponent implements OnInit {
 
 
   constructor(private tableroService: TablerosService,
-    private usuarioService: UsuariosService, private modalService: BsModalService,
+    private usuarioService: UsuariosService,
+    private modalService: NgbModal,
+    private toastr: ToastrService,
     private _bitacoraRefreshService: BitacoraRefreshService) { }
 
   ngOnInit(): void {
@@ -60,19 +63,26 @@ export class ListaTablerosComponent implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+    this.modalService.open(template, { centered: true, windowClass: 'dark-modal' });
   }
+
   confirm() {
-    let nuevoTablero: Tablero = new Tablero();
-    nuevoTablero.id_usuario = Utils.currentUser.id;
-    nuevoTablero.titulo = this.tituloTablero;
-    nuevoTablero.descripcion = this.descripcionTablero;
-    this.tableroService.createTablero(nuevoTablero).subscribe(tableros => {
-      // const lista = JSON.stringify(tableros);
-      // console.log(lista);
-      this.ngOnInit();
-      this.modalService.hide();
-    });
+
+    if (this.tituloTablero && this.descripcionTablero) {
+      let nuevoTablero: Tablero = new Tablero();
+      nuevoTablero.id_usuario = Utils.currentUser.id;
+      nuevoTablero.titulo = this.tituloTablero;
+      nuevoTablero.descripcion = this.descripcionTablero;
+      this.tableroService.createTablero(nuevoTablero).subscribe(tableros => {
+        // const lista = JSON.stringify(tableros);
+        // console.log(lista);
+        this.ngOnInit();
+        this.modalService.dismissAll();
+      });
+    }
+    else {
+      this.toastr.success('Datos Incompletos', 'Tableros', { positionClass: 'toast-top-center' });
+    }
 
   }
 

@@ -1,4 +1,12 @@
-.md-fab-bottom-right{
-    position: fixed !important;
-    right: 15px; /* Add this and change value to set the margin you want */
+
+.md-fab-bottom-right {
+  z-index: 9999999999999;
+  position: fixed;
+
+}
+
+.boton-circulo{
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
 }

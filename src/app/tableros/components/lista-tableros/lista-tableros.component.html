@@ -13,10 +13,17 @@
       <app-item-tableros *ngFor="let item of listaTableros" [item]="item" class="mb-0  ">
 
       </app-item-tableros>
-      <button mat-mini-fab class="md-fab-bottom-right fixed-bottom pull-right" color="accent"
-        (click)="openModal(template)" saria-label="Example icon button with a plus one icon">
-        <mat-icon>plus_one</mat-icon>
-      </button>
+      <div class="me-3 mb-2 fixed-bottom md-fab-bottom-right">
+        <button mat-mini-fab class="boton-circulo " color="accent" (click)="openModal(template)"
+          saria-label="Example icon button with a plus one icon">
+          <mat-icon> table_chart</mat-icon>
+          <div class="text-white pull-right" matBadge="+" matBadgeOverlap="true">
+          </div>
+        </button>
+      </div>
+
+
+
 
 
       <ng-template #template>
