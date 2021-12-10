@@ -58,8 +58,8 @@ export class UsuariosService {
 
 
   isAuthenticated(): boolean {
-    // console.log("Esta logueado : " + sessionStorage.getItem('isLoggedIn'));
-    return (sessionStorage.getItem('isLoggedIn') === "true") ? true : false;
+    // console.log("Esta logueado : " + localStorage.getItem('isLoggedIn'));
+    return (localStorage.getItem('isLoggedIn') === "true") ? true : false;
   };
 
 

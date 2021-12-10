@@ -1,5 +1,5 @@
-<mat-drawer-container>
-  <div style="position: fixed;width: 100%;z-index: 10;">
+<!-- <mat-drawer-container>
+  <div style="position: fixed;width: 100%; height: 100%;">
     <mat-drawer #drawer mode="over" class="lateral">
       <mat-toolbar>
         <span>Menu</span>
@@ -27,6 +27,7 @@
         <br>
         <div class="row mt-2">
           <a class="btn btn-primary" (click)="logout()" *ngIf="!validaUsuarioLogueado()">Cerrar Sesión</a>
+          <a class="btn btn-primary" (click)="drawer.toggle()">Regresar</a>
         </div>
 
       </div>
@@ -61,10 +62,69 @@
     </mat-toolbar>
     <app-header (actualizarNotification)="CambiaNumNoti($event)"></app-header>
   </div>
-  <router-outlet></router-outlet>
 
+
+
+</mat-drawer-container> -->
+
+
+
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="over">
+    <div class="container mt-4 mb-4 p-5 justify-content-center">
+      <div class="row">
+        <div class="card">
+          <div class=" image d-flex flex-column justify-content-center align-items-center">
+
+            <img src="https://picsum.photos/300/300" class="rounded-circle border border-2 border-dark z-depth-2"
+              height="140" width="140">
+
+            <span class="name mt-3">{{datosUsuario.name}}</span> <span class="idd">{{datosUsuario.email}}</span>
+            <div class="d-flex flex-row justify-content-center align-items-center gap-2"> <span class="idd1">@{{
+                datosUsuario.username }}</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <br>
+      <div class="row mt-2">
+        <a class="btn btn-primary" (click)="logout()" *ngIf="!validaUsuarioLogueado()">Cerrar Sesión</a>
+        <a class="btn btn-success mt-2" (click)="drawer.toggle()">Regresar</a>
+      </div>
+
+    </div>
+  </mat-drawer>
+
+  <div class="example-sidenav-content">
+    <mat-toolbar (click)="obtubeFoco()">
+      <button mat-icon-button (click)="drawer.toggle()" class="example-icon"
+        aria-label="Example icon-button with menu icon">
+        <img alt="My image name" src="./assets/icono.png" width="25" height="25">
+      </button>
+
+
+      <span>RememberMe</span>
+      <span class="example-spacer"></span>
+      <div class="row mt-2 p-0">
+        <div class="col">
+          <div class="text-white" matBadge="{{ countUnreadNotifications }}" matBadgeOverlap="true"
+            *ngIf="!validaUsuarioLogueado()" class="me-3">
+            <mat-icon routerLink="notification">notifications</mat-icon>
+          </div>
+        </div>
+
+      </div>
+      <div>
+
+        <a mat-button routerLink="/login" class="example-icon" *ngIf="validaUsuarioLogueado()">Iniciar</a>
+
+      </div>
+
+    </mat-toolbar>
+    <app-header (actualizarNotification)="CambiaNumNoti($event)"></app-header>
+    <router-outlet></router-outlet>
+  </div>
 
 </mat-drawer-container>
-
-
-<!-- <mat-icon>favorite</mat-icon> -->

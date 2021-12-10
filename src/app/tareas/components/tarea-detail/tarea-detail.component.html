@@ -35,7 +35,7 @@
   <div class="row">
     <mat-form-field appearance="fill">
       <mat-label>Categoria</mat-label>
-      <mat-select [(value)]="selected" [(ngModel)]="datoTarea.id_clasificacion">
+      <mat-select [(value)]="selected" [(ngModel)]="datoTarea.id_categoria">
         <mat-option>None</mat-option>
         <mat-option *ngFor="let item of listaCategorias" [value]="item.id">{{item.descripcion}}</mat-option>
       </mat-select>

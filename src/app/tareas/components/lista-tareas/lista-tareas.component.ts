@@ -188,7 +188,7 @@ export class ListaTareasComponent implements OnInit {
     }
     else {
       let tareaCategoria: Tarea = new Tarea();
-      tareaCategoria.id_clasificacion = categoria;
+      tareaCategoria.id_categoria = categoria;
       tareaCategoria.id_usuario = Utils.currentUser.id;
       this.tareaService.getTareasCategoria(tareaCategoria).subscribe(tareas => {
         this.listaTareas = tareas;

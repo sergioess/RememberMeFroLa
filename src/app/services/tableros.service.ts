@@ -87,7 +87,7 @@ export class TablerosService {
 
     // console.log("Item desde TableroService" + JSON.stringify(data));
 
-    return this.http.put(this.url + 'tablero_colaboradores_acepta' + '/' + id, data);
+    return this.http.put(this.url + 'tablero_colaboradores_acepta' + '/' + data.id, data);
   }
 
 

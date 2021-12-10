@@ -3,7 +3,7 @@ export class NotificationUread {
   id: number = 0;
   type_notification: number = 0;
   created_at: string = '';
-  description: string = '';
+  descripcion: string = '';
   id_objeto: number = 0;
   usr_r_id: number = 0;
   usr_r_name: string = '';

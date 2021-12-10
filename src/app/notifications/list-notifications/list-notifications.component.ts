@@ -67,6 +67,7 @@ export class ListNotificationsComponent implements OnInit {
 
   cambiaAceptaTableroColaborador(item: NotificationUread) {
 
+    console.log(item);
     this.tablerosService.updateEstadoAceptado(1, item).subscribe(tablero => {
       this.listNotifications = tablero;
       const lista = JSON.stringify(tablero);

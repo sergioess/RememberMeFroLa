@@ -166,7 +166,7 @@ export class DetailTableroComponent implements OnInit {
       this.tablerosService.createTableroColaborador(agregaColaborador).subscribe(tablero => {
 
         // const lista = JSON.stringify(tablero);
-        // console.log(tareas.body.tarea);
+        // console.log(lista);
 
         // TODO: crea la notificacion
         let mensaje = "Has sido invitado a participar del Tablero '" + this.detalleTablero.titulo + "' creado por @" + Utils.currentUser.username;

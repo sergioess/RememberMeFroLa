@@ -182,20 +182,33 @@ export class TareaDetailComponent implements OnInit {
         console.log("Cambio de colaborador");
         //TODO:
         //Crear notificacion tarea asignada
-        let mensaje = "Le ha sido asignada la Tarea '" + this.datoTarea.titulo + "' del Tablero '" + this.datoTarea.tablero + "' creado por @" + Utils.currentUser.username;
-        let notificacionNew: Notificacion = new Notificacion();
-        notificacionNew.id_usr_recibe = this.datoTarea.id_usuario_asignado;
-        notificacionNew.id_usr_send = Utils.currentUser.id;
-        notificacionNew.description = mensaje;
-        notificacionNew.type_notification = 2;
-        notificacionNew.id_objeto = this.datoTarea.id_tablero;
 
-        console.log(JSON.stringify("Nueva Notificacion: " + notificacionNew));
+        // console.log("Saco el dato de tablero:" + JSON.stringify(this.datoTarea));
 
-        this.notificationService.createNotificacion(notificacionNew).subscribe(notifica => {
-          const lista = JSON.stringify(notifica);
+        this.tablerosService.getTableroTarea(this.datoTarea.id_tablero).subscribe(tablero => {
+          const lista = JSON.stringify(tablero);
           console.log(lista);
+
+          let mensaje = "Le ha sido asignada la Tarea '" + this.datoTarea.titulo + "' del Tablero '" + tablero.titulo + "' creado por @" + Utils.currentUser.username;
+          let notificacionNew: Notificacion = new Notificacion();
+          notificacionNew.id_usr_recibe = this.datoTarea.id_usuario_asignado;
+          notificacionNew.id_usr_send = Utils.currentUser.id;
+          notificacionNew.description = mensaje;
+          notificacionNew.type_notification = 2;
+          notificacionNew.id_objeto = this.datoTarea.id_tablero;
+
+          this.notificationService.createNotificacion(notificacionNew).subscribe(notifica => {
+            const lista = JSON.stringify(notifica);
+            console.log(lista);
+          });
+
         });
+
+
+
+        // console.log(JSON.stringify("Nueva Notificacion: " + notificacionNew));
+
+
 
 
       }
@@ -268,19 +281,27 @@ export class TareaDetailComponent implements OnInit {
 
   eliminar() {
     // console.log("Click eliminar");
-    this.tareaService.deleteTarea(this.datoTarea.id).subscribe(tareas => {
+    // TODO:
+    //La Tarea no puede ser eliminada por un colaborador
+    if (this.datoTarea.id_usuario_asignado === Utils.currentUser.id) {
+      this.toastr.success('Sólo el creador del tablero puede eliminar una tarea', 'Error', { positionClass: 'toast-top-center' });
+    }
+    else {
+      this.tareaService.deleteTarea(this.datoTarea.id).subscribe(tareas => {
 
-      // const lista = JSON.stringify(tareas);
-      // console.log(lista);
-      this.toastr.success('Tarea Eliminada', 'Tareas', { positionClass: 'toast-top-center' });
-      this.crearRegistroBitacora("Tarea Eliminada");
+        // const lista = JSON.stringify(tareas);
+        // console.log(lista);
+        this.toastr.success('Tarea Eliminada', 'Tareas', { positionClass: 'toast-top-center' });
+        this.crearRegistroBitacora("Tarea Eliminada");
 
-      let currentUrl = this.router.url;
-      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-        this.router.navigate(['tareas']);
+        let currentUrl = this.router.url;
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['tareas']);
+        });
+
       });
+    }
 
-    });
 
   }
 

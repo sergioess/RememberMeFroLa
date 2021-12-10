@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
     else {
       // console.log("Id igual a cero");
       let texto: string | null = "";
-      texto = sessionStorage.getItem('user');
+      texto = localStorage.getItem('user');
 
       let numero: number = Number(texto);
       numero = numero / 598;
@@ -72,9 +72,9 @@ export class AppComponent implements OnInit {
   }
 
   logout(): void {
-    sessionStorage.setItem('isLoggedIn', 'false');
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('user');
+    localStorage.setItem('isLoggedIn', 'false');
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     this.navigate("/");
   }
 
