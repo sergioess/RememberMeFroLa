@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Tarea } from '../models/tarea'
 import { Observable } from 'rxjs';
 import { FiltroTarea } from '../models/filtro-tarea';
@@ -9,11 +9,21 @@ import { FiltroTarea } from '../models/filtro-tarea';
 })
 export class TareasServiceService {
 
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'Application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'X-Requested-With, X-authentication,Content-Type, X-client'
+    })
+  };
+
+
   constructor(private http: HttpClient) { }
 
   // url: string = 'https://remembermebackend.herokuapp.com/api/';
   // url: string = 'http://localhost:8000/api/';
-  url: string = 'https://trattoria.com.co/apirem/api/';
+  url: string = 'https://www.trattoria.com.co/apirem/api/';
+
   items: Tarea[] = [];
 
   getTareas(): Observable<Tarea[]> {
@@ -31,15 +41,15 @@ export class TareasServiceService {
   // }
 
   updateTarea(id: number, data: Tarea): Observable<any> {
-    return this.http.put(this.url + 'tareas' + '/' + id, data);
+    return this.http.put(this.url + 'tareas' + '/' + id, data, this.httpOptions);
   }
 
   createTarea(data: Tarea): Observable<any> {
-    return this.http.post(this.url + 'tareas/', data);
+    return this.http.post(this.url + 'tareas/', data, this.httpOptions);
   }
 
   createTareaTablero(data: Tarea): Observable<any> {
-    return this.http.post(this.url + 'tareastablero/', data);
+    return this.http.post(this.url + 'tareastablero/', data, this.httpOptions);
   }
 
   getTareasCategoria(data: Tarea): Observable<Tarea[]> {
@@ -71,7 +81,7 @@ export class TareasServiceService {
   deleteTarea(id: number): Observable<any> {
     // console.log(this.http.get<Tarea[]>(this.url + '/tareas'))
     // return this.items;
-    return this.http.delete<any>(this.url + 'tareas' + '/' + id);
+    return this.http.delete<any>(this.url + 'tareas' + '/' + id, this.httpOptions);
   }
 
 }

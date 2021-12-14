@@ -15,7 +15,7 @@ export class CategoriasServiceService {
 
   // url: string = 'https://remembermebackend.herokuapp.com/api/';
   // url: string = 'http://localhost:8000/api/';
-  url: string = 'https://trattoria.com.co/apirem/api/';
+  url: string = 'https://www.trattoria.com.co/apirem/api/';
 
   items: Categoria[] = [];
   getCategorias(id_usuario: number): Observable<Categoria[]> {

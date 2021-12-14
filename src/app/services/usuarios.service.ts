@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Usuario } from '../models/usuario';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -9,11 +9,19 @@ import { Router } from '@angular/router';
 })
 export class UsuariosService {
 
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'Application/json',
+      'Access-Control-Allow-Origin': '*'
+    })
+  };
+
   constructor(private http: HttpClient, private router: Router) { }
 
   // url: string = 'https://remembermebackend.herokuapp.com/api/';
   // url: string = 'http://localhost:8000/api/';
-  url: string = 'https://trattoria.com.co/apirem/api/';
+  url: string = 'https://www.trattoria.com.co/apirem/api/';
+
 
   items: Usuario[] = [];
 
@@ -50,11 +58,12 @@ export class UsuariosService {
   // }
 
   updateUsuario(id: number, data: Usuario): Observable<any> {
-    return this.http.put(this.url + 'usuarios' + '/' + id, data);
+    return this.http.put(this.url + 'usuarios' + '/' + id, data, this.httpOptions);
   }
 
   createUsuario(data: Usuario): Observable<any> {
-    return this.http.post(this.url + 'usuarios/', data);
+    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.post(this.url + 'usuarios/', data, this.httpOptions);
   }
 
 

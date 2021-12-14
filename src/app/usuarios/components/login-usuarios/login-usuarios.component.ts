@@ -19,6 +19,31 @@ export class LoginUsuariosComponent implements OnInit {
 
   ngOnInit(): void {
     // console.log("entre login");
+    if (this.usuariosService.isAuthenticated()) {
+      let texto: string | null = "";
+      texto = localStorage.getItem('user');
+
+      let numero: number = Number(texto);
+      numero = numero / 598;
+      numero = numero * 3;
+      numero = numero / 12;
+      console.log("Id logueo guardado: " + numero);
+
+
+      this.usuariosService.getUsuariosById(numero).subscribe(usuario => {
+
+        const lista = JSON.stringify(usuario.id);
+
+        if (usuario) {
+          Utils.currentUser = usuario;
+          console.log("Usuario despues de refrescar " + usuario.email);
+        }
+        this.router.navigate(['/tareas']);
+
+      });
+
+
+    }
   }
 
   loginIntent() {
