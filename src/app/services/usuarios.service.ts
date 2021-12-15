@@ -11,8 +11,7 @@ export class UsuariosService {
 
   httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'Application/json',
-      'Access-Control-Allow-Origin': '*'
+      'Content-Type': 'Application/json'
     })
   };
 
@@ -40,7 +39,7 @@ export class UsuariosService {
 
   getUsuarioByCorreo(data: Usuario): Observable<any> {
     // console.log(data);
-    return this.http.post(this.url + 'usuariosemail', data);
+    return this.http.post(this.url + 'usuariosemail', data, this.httpOptions);
 
   }
 
@@ -62,8 +61,8 @@ export class UsuariosService {
   }
 
   createUsuario(data: Usuario): Observable<any> {
-    let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post(this.url + 'usuarios/', data, this.httpOptions);
+
+    return this.http.post(this.url + 'usuarioscrea', data, this.httpOptions);
   }
 
 

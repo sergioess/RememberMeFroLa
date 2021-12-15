@@ -129,21 +129,21 @@ export class TareaDetailComponent implements OnInit {
     switch (estado) {
 
       case 1:
-        this.color1 = "bg-danger";
-        this.color2 = "bg-white";
-        this.color3 = "bg-white";
+        this.color1 = "#65CCB8";
+        this.color2 = "#FFFFFF";
+        this.color3 = "#FFFFFF";
         this.datoTarea.estado = 1
         break;
       case 2:
-        this.color1 = "bg-danger";
-        this.color2 = "bg-secondary";
-        this.color3 = "bg-white";
+        this.color1 = "#65CCB8";
+        this.color2 = "#57BA98";
+        this.color3 = "#FFFFFF";
         this.datoTarea.estado = 2
         break;
       case 3:
-        this.color1 = "bg-danger";
-        this.color2 = "bg-secondary";
-        this.color3 = "bg-warning";
+        this.color1 = "#65CCB8";
+        this.color2 = "#57BA98";
+        this.color3 = "#3B945E";
         this.datoTarea.estado = 3
         break;
     }

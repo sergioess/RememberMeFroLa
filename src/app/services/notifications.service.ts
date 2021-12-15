@@ -11,6 +11,13 @@ import { NotificationUread } from '../models/notification-uread';
 })
 export class NotificationsService {
 
+
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'Application/json'
+    })
+  };
+
   constructor(private http: HttpClient) { }
 
   // url: string = 'https://remembermebackend.herokuapp.com/api/';
@@ -46,24 +53,15 @@ export class NotificationsService {
 
   updateReadNotification(id: number): Observable<any> {
 
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-
-    };
-
-
     // console.log("Actualiza" + lista);
-    return this.http.put(this.url + 'notificacion' + '/' + id, httpOptions);
+    return this.http.put(this.url + 'notificacion' + '/' + id, this.httpOptions);
   }
 
 
   createNotificacion(data: Notificacion): Observable<any> {
 
 
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 
-    };
-    return this.http.post(this.url + 'notificacion/', data);
+    return this.http.post(this.url + 'notificacion', data, this.httpOptions);
   }
 }

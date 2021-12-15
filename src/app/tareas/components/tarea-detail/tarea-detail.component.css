@@ -1,6 +1,9 @@
 .mat-datepicker-content {
   z-index: 1200
 }
+
 .barraEstado {
   height:10px;
+  border-color: rgb(163, 160, 117) ;
+  box-shadow: 5px 5px 12px -4px #000000;
 }

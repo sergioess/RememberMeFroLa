@@ -9,7 +9,11 @@ import { HttpHeaders } from '@angular/common/http';
 })
 export class CategoriasServiceService {
 
-
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'Application/json'
+    })
+  };
 
   constructor(private http: HttpClient) { }
 
@@ -27,19 +31,14 @@ export class CategoriasServiceService {
 
   updateCategorias(id: number, data: Categoria): Observable<any> {
 
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-
-    };
-
 
     const lista = JSON.stringify(data);
     // console.log("Actualiza" + lista);
-    return this.http.put(this.url + 'categoria' + '/' + id, data, httpOptions);
+    return this.http.put(this.url + 'categoria' + '/' + id, data, this.httpOptions);
   }
 
   createCategoria(data: Categoria): Observable<any> {
-    return this.http.post(this.url + 'categoria/', data);
+    return this.http.post(this.url + 'categoria', data, this.httpOptions);
   }
 
   removeCategoria(id: number): Observable<Categoria[]> {

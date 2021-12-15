@@ -11,9 +11,7 @@ export class TareasServiceService {
 
   httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'Application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'X-Requested-With, X-authentication,Content-Type, X-client'
+      'Content-Type': 'Application/json'
     })
   };
 
@@ -45,11 +43,11 @@ export class TareasServiceService {
   }
 
   createTarea(data: Tarea): Observable<any> {
-    return this.http.post(this.url + 'tareas/', data, this.httpOptions);
+    return this.http.post(this.url + 'tareas', data, this.httpOptions);
   }
 
   createTareaTablero(data: Tarea): Observable<any> {
-    return this.http.post(this.url + 'tareastablero/', data, this.httpOptions);
+    return this.http.post(this.url + 'tareastablero', data, this.httpOptions);
   }
 
   getTareasCategoria(data: Tarea): Observable<Tarea[]> {

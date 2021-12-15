@@ -13,6 +13,11 @@ import { NotificationUread } from '../models/notification-uread';
   providedIn: 'root'
 })
 export class TablerosService {
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'Application/json'
+    })
+  };
 
   public tableroPasaDetail: Tablero = new Tablero();
 
@@ -58,7 +63,7 @@ export class TablerosService {
   }
 
   updateRolColaborador(id: number, data: TableroColaborador): Observable<any> {
-    return this.http.put(this.url + 'updaterolcol' + '/' + id, data);
+    return this.http.put(this.url + 'updaterolcol' + '/' + id, data, this.httpOptions);
   }
 
   createTableroColaborador(data: TableroColaborador): Observable<any> {
@@ -69,7 +74,7 @@ export class TablerosService {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 
     };
-    return this.http.post(this.url + 'tablero_colaboradores/', data);
+    return this.http.post(this.url + 'tablero_colaboradores', data, this.httpOptions);
   }
 
 
@@ -81,7 +86,7 @@ export class TablerosService {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 
     };
-    return this.http.post(this.url + 'tablero/', data);
+    return this.http.post(this.url + 'tablero', data, this.httpOptions);
   }
 
 
@@ -89,7 +94,7 @@ export class TablerosService {
 
     // console.log("Item desde TableroService" + JSON.stringify(data));
 
-    return this.http.put(this.url + 'tablero_colaboradores_acepta' + '/' + data.id, data);
+    return this.http.put(this.url + 'tablero_colaboradores_acepta' + '/' + data.id, data, this.httpOptions);
   }
 
 

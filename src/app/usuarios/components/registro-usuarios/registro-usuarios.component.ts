@@ -37,30 +37,33 @@ export class RegistroUsuariosComponent implements OnInit {
 
     if (password1 === password2) {
 
-      const USUARIO: Usuario = {
-        id: 0,
-        username: this.usuarioForm.get('username')?.value,
-        password: this.usuarioForm.get('password')?.value,
-        name: this.usuarioForm.get('nombre_completo')?.value,
-        email: this.usuarioForm.get('correo')?.value,
-        estado: 1
-      }
+      let newUser: Usuario = new Usuario();
 
-      this.usuariosService.createUsuario(USUARIO).subscribe(usuario => {
+      newUser.username = this.usuarioForm.get('username')?.value;
+      newUser.password = this.usuarioForm.get('password')?.value;
+      newUser.name = this.usuarioForm.get('nombre_completo')?.value;
+      newUser.email = this.usuarioForm.get('correo')?.value;
+      newUser.estado = 1;
+
+
+      this.usuariosService.createUsuario(newUser).subscribe(usuario => {
         // console.log(USUARIO);
-        const lista = JSON.stringify(USUARIO);
-        // console.log(lista);
+        const lista = JSON.stringify(usuario);
+        console.log("Respuesta crea usuario: " + lista);
 
       });
 
       this.toastr.success('El usuario se registro de manera exitosa', 'Registro exitoso!', { positionClass: 'toast-top-center' });
       this.router.navigate(['/']);
 
-    } //cierre del if
+    }
     else {
       this.toastr.error('Las contraseñas no coinciden', 'Contraseña errada!', { positionClass: 'toast-top-center' });
-    }
+
+    } //cierre del if
 
   }
 
 }
+
+

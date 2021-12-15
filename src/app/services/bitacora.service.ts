@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Bitacora } from '../models/bitacora'
 import { Observable } from 'rxjs';
 
@@ -8,6 +8,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class BitacoraService {
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'Application/json'
+    })
+  };
 
   constructor(private http: HttpClient) { }
 
@@ -26,7 +31,7 @@ export class BitacoraService {
 
 
   createBitacora(data: Bitacora): Observable<any> {
-    return this.http.post(this.url + 'bitacora', data);
+    return this.http.post(this.url + 'bitacora', data, this.httpOptions);
   }
 
 }
