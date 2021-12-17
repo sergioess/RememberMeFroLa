@@ -36,6 +36,7 @@ import { NotificationBellService } from './services/notification-bell.service';
 import { BitacoraRefreshService } from './services/bitacora-refresh.service';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { SubtareaService } from './services/subtarea.service';
 
 
 @NgModule({
@@ -75,7 +76,8 @@ import { environment } from '../environments/environment';
     CategoriasServiceService,
     NotificationsService,
     NotificationBellService,
-    BitacoraRefreshService
+    BitacoraRefreshService,
+    SubtareaService
   ],
   entryComponents: [ConfirmationDialogComponent],
   bootstrap: [AppComponent]

@@ -23,3 +23,12 @@
   color: #0d4b0b;
   text-decoration: none;
 }
+
+.icon-display {
+  transform: scale(0.8);
+}
+
+.icon-display-next {
+  transform: scale(2);
+  color: #4f46a3;
+}

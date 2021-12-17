@@ -1,10 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation, TemplateRef } from '@angular/core';
 import { Tarea } from '../../../models/tarea';
 import { MatDialog } from '@angular/material/dialog';
 import { TareaDetailComponent } from '../tarea-detail/tarea-detail.component';
 import { DateAdapter } from '@angular/material/core';
 import * as moment from 'moment';
 import { Utils } from '../../../common/utils';
+
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { SubTarea } from '../../../models/sub-tarea';
+import { SubtareaService } from '../../../services/subtarea.service';
 
 
 
@@ -17,6 +21,7 @@ import { Utils } from '../../../common/utils';
 export class ItemTareaComponent implements OnInit {
   @Input() item: Tarea = new Tarea();
 
+  listaSubTareas: SubTarea[] = [];
 
   color1: string = "";
   color2: string = "";
@@ -26,9 +31,14 @@ export class ItemTareaComponent implements OnInit {
   colorAtrasada: string = "text-white";
   colorFecha: string = "text-dark";
 
+  // Datos en la ventana modal
+  modalRef?: BsModalRef;
+  tituloSubtarea: string = "";
 
-
-  constructor(public dialog: MatDialog, private dateAdapter: DateAdapter<Date>) {
+  constructor(public dialog: MatDialog,
+    private dateAdapter: DateAdapter<Date>,
+    private modalService: BsModalService,
+    private subTareaService: SubtareaService) {
     this.dateAdapter.setLocale('es-CO'); //dd/MM/yyyy
   }
 
@@ -104,5 +114,55 @@ export class ItemTareaComponent implements OnInit {
     this.dialog.closeAll;
   }
 
+  openModal(template: TemplateRef<any>) {
+
+    this.subTareaService.getSubTareasTarea(this.item.id).subscribe(subtareas => {
+      this.listaSubTareas = subtareas;
+
+      // const lista = JSON.stringify(subtareas);
+      // console.log(lista);
+      this.modalRef = this.modalService.show(template, {
+        class: 'modal-dialog-centered'
+      });
+    });
+
+
+
+
+  }
+
+  cambioEstado(id_subtarea: number) {
+    console.log("cambio estado", id_subtarea);
+    this.subTareaService.setSubTareaEstado(id_subtarea).subscribe(subtareas => {
+      // const lista = JSON.stringify(subtareas);
+      // console.log(lista);
+    });
+
+  }
+
+
+  agregaSubTarea(id_subtarea: number) {
+    let nuevaSubTarea = new SubTarea();
+    nuevaSubTarea.titulo = this.tituloSubtarea;
+    nuevaSubTarea.id_tarea = id_subtarea;
+
+    this.subTareaService.createSubTarea(nuevaSubTarea).subscribe(subtareas => {
+      // const lista = JSON.stringify(subtareas);
+      // console.log(lista);
+      this.listaSubTareas.push(subtareas);
+    });
+    this.tituloSubtarea = "";
+
+  }
+
+  deleteSubTarea(id_subtarea: number) {
+    this.subTareaService.deleteSubTarea(id_subtarea).subscribe(subtareas => {
+      // const lista = JSON.stringify(subtareas);
+      // console.log(lista);
+      this.subTareaService.getSubTareasTarea(this.item.id).subscribe(subtareas => {
+        this.listaSubTareas = subtareas;
+      });
+    });
+  }
 
 }

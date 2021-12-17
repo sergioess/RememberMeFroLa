@@ -13,60 +13,146 @@
    -->
 
 
-<div class="card mt-2" (click)="openDialog(item)">
-  <div class="card-body px-2 py-2  ">
-    <div class="row align-content-between    p-0 ">
-      <div class="col-11   p-0 ">
-        <div class="row  p-0 px-2">
-          <div class="col-1  ">
-            <img src="{{iconoPrioridad}}" alt="image" style="width:20px">
+<div class="card mt-2">
+  <div class="card-body p-0 ">
+    <div class="container px-3 py-0">
+      <div class="row align-content-between flex-nowrap  p-0 ">
+        <div class="col-11  p-0 " (click)="openDialog(item)">
+          <div class="container p-0">
+            <div class="d-flex py-0 px-2  ms-0">
+              <div class="col-1 ">
+                <img src="{{iconoPrioridad}}" alt="image" style="width:20px">
+              </div>
+              <div class="col-10">
+                {{item.titulo}}
+              </div>
+              <div class="col-1 p-0 m-0 " *ngIf="item.id_tablero" placement="left" ngbTooltip="{{item.tablero}}">
+                <mat-icon class="icon-display"> table_chart</mat-icon>
+              </div>
+            </div>
+
+
           </div>
-          <div class="col-11">
 
-            {{item.titulo}}
 
-          </div>
+          <div class="row p-0 flex-nowrap">
+            <div class="col-9 ">
+              <div class="row  justify-content-center py-0 ms-1">
+                <div class="col-6 p-0">
+                  <div class="d-flex {{ colorFecha }}" matTooltip="Fecha límite" matTooltipClass="custom-tooltip">
+                    <mat-icon>date_range</mat-icon>
+                    <span class=" mt-1 ms-1"> {{ item.fechalimite | date :
+                      'dd/MM/yyyy' }} </span>
+                  </div>
 
-        </div>
-        <div class="row  p-0 ">
-          <div class="col-8 ">
-            <div class="row  py-0 ps-1">
-              <div class="col-6 ">
-                <div class="d-flex  {{ colorFecha }}" matTooltip="Fecha límite" matTooltipClass="custom-tooltip">
-                  <mat-icon>date_range</mat-icon>
-                  <span class=" align-middle ms-1"> {{ item.fechalimite | date :
-                    'dd/MM/yyyy' }} </span>
+                </div>
+                <div class="col-6 mt-1 p-0 align-middle text-end {{ colorAtrasada }}"
+                  matTooltip="Tarea que debería estar Finalizada" matTooltipClass="custom-tooltip">
+                  Atrasadas
+                </div>
+              </div>
+
+            </div>
+            <div class="col-3  align-self-center p-2 ">
+              <div class="row p-0 m-0 border flex-nowrap barraEstado" style="width: 46px; height: 11px;">
+                <div class=" text-danger p-0" (click)="cambiaEstado(1)"
+                  style="width: 15px; height: 10px; background-color: {{color1}};">
+
+                </div>
+                <div class="text-secondary p-0" (click)="cambiaEstado(2)"
+                  style="width: 15px; height: 10px; background-color: {{color2}};">
+
+                </div>
+                <div class="text-warning p-0" (click)="cambiaEstado(3)"
+                  style="width: 15px; height: 10px; background-color: {{color3}};">
+
                 </div>
 
               </div>
-              <div class="col-6 align-middle {{ colorAtrasada }}" matTooltip="Tarea que debería estar Finalizada"
-                matTooltipClass="custom-tooltip">
-                Atrasadas
-              </div>
-            </div>
 
-          </div>
-          <div class="col-4 align-middle">
-            <div class="row p-0 m-0 border barraEstado">
-              <div class="col-4  text-danger" (click)="cambiaEstado(1)" style="background-color: {{color1}};">
-
-              </div>
-              <div class="col-4 text-secondary" (click)="cambiaEstado(2)" style="background-color: {{color2}};">
-
-              </div>
-              <div class="col-4 text-warning" (click)="cambiaEstado(3)" style="background-color: {{color3}};">
-
-              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-1 p-0 align-self-end" matTooltip="Tarea Repetitiva" matTooltipClass="custom-tooltip">
-        <!-- <mat-icon>refresh</mat-icon> -->
-        <div class="p-0 m-0 tablero-icono" *ngIf="item.id_tablero" placement="bottom" ngbTooltip="{{item.tablero}}">
-          <mat-icon> table_chart</mat-icon>
+        <div class="col-1 p-0 align-self-center" (click)="openModal(template)">
+          <!-- <mat-icon>refresh</mat-icon> -->
+          <span class="text-center ms-0">
+            <mat-icon class="icon-display-next m-0 p-0">navigate_next</mat-icon>
+          </span>
         </div>
       </div>
     </div>
+
   </div>
+
+
+
+
 </div>
+
+
+
+
+<!-- <pre class="card card-block card-header">Agregar Colaborador</pre> -->
+<ng-template #template>
+  <div class="modal-body ">
+
+    <div class="containter">
+      <h3 class="text-center"> <strong>Sub Tareas</strong> </h3>
+
+      <div class=" row p-0 mt-2 flex-nowrap">
+        <div class="form-floating col">
+          <mat-form-field class="example-form-field" appearance="fill">
+            <mat-label>Título</mat-label>
+            <input matInput type="text" [(ngModel)]="tituloSubtarea">
+            <button matSuffix mat-icon-button aria-label="Clear">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="col-auto me-1 ">
+          <button mat-raised-button (click)="agregaSubTarea(item.id)" color="primary" [mat-dialog-close]
+            class="text-center mt-2">Agregar</button>
+        </div>
+      </div>
+
+
+
+
+      <div class="containter pe-4">
+        <div *ngFor="let item of listaSubTareas" class="row">
+          <div class="col-11">
+
+
+            <div *ngIf="item.activo == 1; else elseBlock">
+              <mat-checkbox class="example-margin" [checked]="true" (change)="cambioEstado(item.id)" color="primary">
+                {{item.titulo}}
+              </mat-checkbox>
+            </div>
+            <ng-template #elseBlock>
+              <mat-checkbox class="example-margin" [checked]="false" (change)="cambioEstado(item.id)" color="primary">
+                {{item.titulo}}
+              </mat-checkbox>
+            </ng-template>
+
+
+
+          </div>
+          <div class="col-1">
+            <mat-icon (click)="deleteSubTarea(item.id)">delete_outline</mat-icon>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+
+
+
+
+
+    <br>
+    <!-- <button type="button" class="btn btn-primary pull-right" (click)="confirm()">Agregar</button> -->
+    <!-- <button type="button" class="btn btn-primary" (click)="decline()">No</button> -->
+  </div>
+</ng-template>
