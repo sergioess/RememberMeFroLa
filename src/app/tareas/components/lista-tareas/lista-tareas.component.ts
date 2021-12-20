@@ -19,6 +19,8 @@ import { Router } from '@angular/router';
 import { BitacoraRefreshService } from '../../../services/bitacora-refresh.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FiltroTarea } from '../../../models/filtro-tarea';
+import { Plantilla } from '../../../models/plantilla';
+import { PlantillaService } from 'src/app/services/plantilla.service';
 
 @Component({
   selector: 'app-lista-tareas',
@@ -33,7 +35,8 @@ export class ListaTareasComponent implements OnInit {
   selected = 'none';
   categoriaSeleccionada: number = 0;
 
-
+  //Lista de Plantillas del Usuario para el modal de subtareas
+  listaPlantillas: Plantilla[] = [];
 
 
   // Datos en la ventana modal
@@ -72,6 +75,7 @@ export class ListaTareasComponent implements OnInit {
     private toastr: ToastrService,
     private modalService: NgbModal,
     private calendar: NgbCalendar,
+    private plantillaService: PlantillaService,
     private _bitacoraRefreshService: BitacoraRefreshService) { }
 
   ngOnInit(): void {
@@ -93,6 +97,16 @@ export class ListaTareasComponent implements OnInit {
       this.traerCategorias(Utils.currentUser.id);
     })
 
+    this.traePlantillas();
+
+  }
+
+  traePlantillas() {
+    this.plantillaService.getPlantillas(Utils.currentUser.id).subscribe(plantillas => {
+
+      this.listaPlantillas = plantillas;
+
+    });
   }
 
   traerTareas() {

@@ -9,6 +9,11 @@ import { Utils } from '../../../common/utils';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { SubTarea } from '../../../models/sub-tarea';
 import { SubtareaService } from '../../../services/subtarea.service';
+import { ToastrService } from 'ngx-toastr';
+import { PlantillaService } from '../../../services/plantilla.service';
+import { PlantillaCrea } from '../../../models/plantilla-crea';
+import { Plantilla } from '../../../models/plantilla';
+import { PlantillaSubTarea } from '../../../models/plantilla-sub-tarea';
 
 
 
@@ -20,6 +25,9 @@ import { SubtareaService } from '../../../services/subtarea.service';
 })
 export class ItemTareaComponent implements OnInit {
   @Input() item: Tarea = new Tarea();
+  @Input() listaPlantillas: Plantilla[] = [];
+
+
 
   listaSubTareas: SubTarea[] = [];
 
@@ -34,11 +42,19 @@ export class ItemTareaComponent implements OnInit {
   // Datos en la ventana modal
   modalRef?: BsModalRef;
   tituloSubtarea: string = "";
+  tituloPlantilla: string = "";
+  // listaPlantillas: Plantilla[] = [];
+  plantillaSeleccionada: number = 0;
+  selected = 'none';
+
+
 
   constructor(public dialog: MatDialog,
     private dateAdapter: DateAdapter<Date>,
     private modalService: BsModalService,
-    private subTareaService: SubtareaService) {
+    private subTareaService: SubtareaService,
+    private plantillaService: PlantillaService,
+    private toastr: ToastrService) {
     this.dateAdapter.setLocale('es-CO'); //dd/MM/yyyy
   }
 
@@ -121,9 +137,15 @@ export class ItemTareaComponent implements OnInit {
 
       // const lista = JSON.stringify(subtareas);
       // console.log(lista);
+
       this.modalRef = this.modalService.show(template, {
         class: 'modal-dialog-centered'
       });
+      const lista = JSON.stringify(this.listaPlantillas);
+      console.log(lista);
+
+
+
     });
 
 
@@ -142,16 +164,30 @@ export class ItemTareaComponent implements OnInit {
 
 
   agregaSubTarea(id_subtarea: number) {
-    let nuevaSubTarea = new SubTarea();
-    nuevaSubTarea.titulo = this.tituloSubtarea;
-    nuevaSubTarea.id_tarea = id_subtarea;
 
-    this.subTareaService.createSubTarea(nuevaSubTarea).subscribe(subtareas => {
-      // const lista = JSON.stringify(subtareas);
-      // console.log(lista);
-      this.listaSubTareas.push(subtareas);
-    });
-    this.tituloSubtarea = "";
+    if (this.tituloSubtarea) {
+      let nuevaSubTarea = new SubTarea();
+      nuevaSubTarea.titulo = this.tituloSubtarea;
+      nuevaSubTarea.id_tarea = id_subtarea;
+
+      this.subTareaService.createSubTarea(nuevaSubTarea).subscribe(subtareas => {
+        // const lista = JSON.stringify(subtareas);
+        // console.log(lista);
+        this.listaSubTareas.push(subtareas);
+      });
+      this.tituloSubtarea = "";
+    } else {
+      if (this.plantillaSeleccionada != 0) {
+        console.log("Se va a crear subtareas de plantilla");
+        this.cambioPlantilla();
+
+        this.plantillaSeleccionada = 0;
+      }
+
+    }
+
+
+
 
   }
 
@@ -164,5 +200,50 @@ export class ItemTareaComponent implements OnInit {
       });
     });
   }
+
+  // Guarda la plantilla de subtareas que se ven en el listado, con el nombre seleccionado
+  guardaPlantilla() {
+    if (this.tituloPlantilla) {
+
+
+      let plantillaNueva: PlantillaCrea = new PlantillaCrea();
+      plantillaNueva.tipo_plantilla = 1;
+      plantillaNueva.titulo_plantilla = this.tituloPlantilla;
+      plantillaNueva.id_usuario = Utils.currentUser.id;
+      plantillaNueva.subtareas = this.listaSubTareas;
+
+      this.plantillaService.createPlantilla(plantillaNueva).subscribe(subtareas => {
+        this.toastr.success('Guardado', 'Exito!', { positionClass: 'toast-top-center' });
+        this.tituloPlantilla = "";
+
+      });
+    }
+    else {
+      this.toastr.warning('Proporcione un nombre de Pantilla', 'Error!', { positionClass: 'toast-top-center' });
+
+    }
+  }
+
+  cambioPlantilla() {
+
+    // if (this.plantillaSeleccionada != 0) {
+    //   console.log(this.plantillaSeleccionada);
+    // }
+
+    let creaPlantillaSubTarea: PlantillaSubTarea = new PlantillaSubTarea();
+    creaPlantillaSubTarea.id_plantilla = this.plantillaSeleccionada;
+    creaPlantillaSubTarea.id_tarea = this.item.id;
+
+    this.plantillaService.createPlantillaSubTareas(creaPlantillaSubTarea).subscribe(subtareas => {
+      this.toastr.success('Plantilla Cargada', 'Exito!', { positionClass: 'toast-top-center' });
+
+      this.subTareaService.getSubTareasTarea(this.item.id).subscribe(subtareas => {
+        this.listaSubTareas = subtareas;
+
+      });
+
+    });
+  }
+
 
 }
