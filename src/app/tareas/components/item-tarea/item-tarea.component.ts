@@ -138,23 +138,23 @@ export class ItemTareaComponent implements OnInit {
       // const lista = JSON.stringify(subtareas);
       // console.log(lista);
 
-      this.modalRef = this.modalService.show(template, {
-        class: 'modal-dialog-centered'
-      });
+
       const lista = JSON.stringify(this.listaPlantillas);
-      console.log(lista);
+      // console.log(lista);
 
 
 
     });
 
-
+    this.modalRef = this.modalService.show(template, {
+      class: 'modal-dialog-centered'
+    });
 
 
   }
 
   cambioEstado(id_subtarea: number) {
-    console.log("cambio estado", id_subtarea);
+    // console.log("cambio estado", id_subtarea);
     this.subTareaService.setSubTareaEstado(id_subtarea).subscribe(subtareas => {
       // const lista = JSON.stringify(subtareas);
       // console.log(lista);
@@ -173,12 +173,21 @@ export class ItemTareaComponent implements OnInit {
       this.subTareaService.createSubTarea(nuevaSubTarea).subscribe(subtareas => {
         // const lista = JSON.stringify(subtareas);
         // console.log(lista);
-        this.listaSubTareas.push(subtareas);
+        if (this.listaSubTareas) {
+          this.listaSubTareas.push(subtareas);
+        } else {
+          this.listaSubTareas = [];
+          this.subTareaService.getSubTareasTarea(this.item.id).subscribe(subtareas2 => {
+            this.listaSubTareas = subtareas2;
+
+          });
+        }
+
       });
       this.tituloSubtarea = "";
     } else {
       if (this.plantillaSeleccionada != 0) {
-        console.log("Se va a crear subtareas de plantilla");
+        // console.log("Se va a crear subtareas de plantilla");
         this.cambioPlantilla();
 
         this.plantillaSeleccionada = 0;
@@ -195,6 +204,7 @@ export class ItemTareaComponent implements OnInit {
     this.subTareaService.deleteSubTarea(id_subtarea).subscribe(subtareas => {
       // const lista = JSON.stringify(subtareas);
       // console.log(lista);
+      this.listaSubTareas = [];
       this.subTareaService.getSubTareasTarea(this.item.id).subscribe(subtareas => {
         this.listaSubTareas = subtareas;
       });

@@ -8,6 +8,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+
 
 import { Utils } from 'src/app/common/utils';
 import { ConfirmatioDelColaComponent } from '../confirmatio-del-cola/confirmatio-del-cola.component';
@@ -56,6 +58,7 @@ export class DetailTableroComponent implements OnInit {
     private _bottomSheet: MatBottomSheet,
     private modalService: BsModalService,
     private usuariosService: UsuariosService,
+    private toastr: ToastrService,
     private notificationService: NotificationsService) { }
 
 
@@ -121,19 +124,28 @@ export class DetailTableroComponent implements OnInit {
 
   delete(id: any) {
     // console.log("El id: " + id);
-    const dialogRef = this.dialog.open(ConfirmatioDelColaComponent);
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.tablerosService.removeColaborador(id).subscribe(colaborador => {
 
-          const lista = JSON.stringify(colaborador);
-          // console.log("Respuesta despues Editar categoria: " + lista);
-          this.TraeColaboradores();
+    if (this.detalleTablero.id_usuario === Utils.currentUser.id) {
+      const dialogRef = this.dialog.open(ConfirmatioDelColaComponent);
 
-        });
-      }
-    });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.tablerosService.removeColaborador(id).subscribe(colaborador => {
+
+            const lista = JSON.stringify(colaborador);
+            // console.log("Respuesta despues Editar categoria: " + lista);
+            this.TraeColaboradores();
+
+          });
+        }
+      });
+    } else {
+      this.toastr.warning('Solo puede eliminar Colaboradores el creador del Tablero', 'Error!', { positionClass: 'toast-top-center' });
+
+    }
+
+
   }
 
   openBottomSheet(dato: TableroColaborador): void {

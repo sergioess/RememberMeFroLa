@@ -21,8 +21,8 @@ export class PlantillaService {
   constructor(private http: HttpClient) { }
 
 
-  // url: string = 'https://www.trattoria.com.co/apirem/api/';
-  url: string = 'http://localhost:8000/api/';
+  url: string = 'https://www.trattoria.com.co/apirem/api/';
+  // url: string = 'http://localhost:8000/api/';
 
 
   getPlantillas(id_usuario: number): Observable<Plantilla[]> {

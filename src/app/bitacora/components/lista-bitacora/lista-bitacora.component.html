@@ -42,7 +42,7 @@
       <tr mat-row (click)="logData(row)" *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true" aria-label="Select page of users">
+    <mat-paginator [pageSizeOptions]="[10, 25, 100]" [showFirstLastButtons]="true" aria-label="Select page of users">
     </mat-paginator>
   </div>
 </div>

@@ -27,7 +27,8 @@
                 {{item.titulo}}
               </div>
               <div class="col-1 p-0 m-0 " *ngIf="item.id_tablero" placement="left" ngbTooltip="{{item.tablero}}">
-                <mat-icon class="icon-display"> table_chart</mat-icon>
+                <!-- <mat-icon class="icon-display"> table_chart</mat-icon> -->
+                <img class="m-0 p-0" src="./assets/tareatablero.png" width="15" height="15">
               </div>
             </div>
 
@@ -37,12 +38,12 @@
 
           <div class="row p-0 flex-nowrap">
             <div class="col-9 ">
-              <div class="row  justify-content-center py-0 ms-1">
+              <div class="row  justify-content-center py-0 ms-1 flex-nowrap">
                 <div class="col-6 p-0">
                   <div class="d-flex {{ colorFecha }}" matTooltip="Fecha límite" matTooltipClass="custom-tooltip">
-                    <mat-icon>date_range</mat-icon>
-                    <span class=" mt-1 ms-1"> {{ item.fechalimite | date :
-                      'dd/MM/yyyy' }} </span>
+                    <!-- <mat-icon>date_range</mat-icon> -->
+                    <img class="m-0 ms-2 p-0" src="./assets/tareacal.png" width="15" height="15">
+                    <span class=" mt-1 ms-1"> {{ item.fechalimite | date : 'dd/MM/yyyy' }} </span>
                   </div>
 
                 </div>
@@ -55,16 +56,16 @@
             </div>
             <div class="col-3  align-self-center p-2 ">
               <div class="row p-0 m-0 border flex-nowrap barraEstado" style="width: 46px; height: 11px;">
-                <div class=" text-danger p-0" (click)="cambiaEstado(1)"
-                  style="width: 15px; height: 10px; background-color: {{color1}};">
+                <div class=" text-danger p-0" (click)="cambiaEstado(1)" style="width: 15px; height: 10px;"
+                  [ngStyle]="{'background-color': color1}">
 
                 </div>
-                <div class="text-secondary p-0" (click)="cambiaEstado(2)"
-                  style="width: 15px; height: 10px; background-color: {{color2}};">
+                <div class="text-secondary p-0" (click)="cambiaEstado(2)" style="width: 15px; height: 10px"
+                  [ngStyle]="{'background-color': color2}">
 
                 </div>
-                <div class="text-warning p-0" (click)="cambiaEstado(3)"
-                  style="width: 15px; height: 10px; background-color: {{color3}};">
+                <div class="text-warning p-0" (click)="cambiaEstado(3)" style="width: 15px; height: 10px;"
+                  [ngStyle]="{'background-color': color3}">
 
                 </div>
 
@@ -76,7 +77,8 @@
         <div class="col-1 p-0 align-self-center" (click)="openModal(template)">
           <!-- <mat-icon>refresh</mat-icon> -->
           <span class="text-center ms-0">
-            <mat-icon class="icon-display-next m-0 p-0">navigate_next</mat-icon>
+            <!-- <mat-icon class="icon-display-next m-0 p-0">navigate_next</mat-icon> -->
+            <img class="m-0 p-0" src="./assets/fletasub.png" width="25" height="25">
           </span>
         </div>
       </div>
@@ -93,7 +95,7 @@
 
 
 <!-- Modal de Sub tareas -->
-<ng-template #template class="modal fade" id="myModal" role="dialog">
+<ng-template #template class="modal fade modal-sm" id="myModal" role="dialog">
   <div class="modal-header">
     <h3 class="text-center"> <strong>Sub Tareas</strong> </h3>
     <button type="button" class="btn-dark close pull-right" aria-label="Close" (click)="modalRef?.hide()">
@@ -107,8 +109,8 @@
 
       <div class=" row p-0 mt-2 flex-nowrap">
         <!-- Escribe una subTarea personalizada -->
-        <div class="form-floating col">
-          <mat-form-field class="example-form-field" appearance="fill">
+        <div class="col-9 px-0">
+          <mat-form-field class="example-form-field">
             <mat-label>Título</mat-label>
             <input matInput type="text" [(ngModel)]="tituloSubtarea">
             <button matSuffix mat-icon-button aria-label="Clear">
@@ -117,23 +119,18 @@
           </mat-form-field>
         </div>
         <!-- Guarda la subTarea o si selecciono una plantilla, trea las subtareas de la plantilla -->
-        <div class="col-auto me-1 ">
+        <div class="col-3 me-1 px-0 ">
           <button mat-raised-button (click)="agregaSubTarea(item.id)" color="primary" [mat-dialog-close]
-            class="text-center mt-2">Agregar</button>
+            class="text-center mt-2 px-2">Agregar</button>
         </div>
         <!-- Selecciona una Platilla -->
 
       </div>
-      <div class="row">
-        <div class="col">
-          <mat-form-field appearance="fill">
-            <mat-label>Selecciona una Plantilla</mat-label>
-            <mat-select [(value)]="selected">
-              <mat-option>None</mat-option>
-              <mat-option *ngFor="let plantilla of listaPlantillas" [value]="plantilla.id">{{plantilla.titulo}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+      <div class="row mb-3">
+        <div class="col-3">
+          <p>Plantilla:</p>
+        </div>
+        <div class="col-9">
 
           <select class="form-select" aria-label="Default select example" [(ngModel)]="plantillaSeleccionada">
             <option value="0">Ninguno</option>
@@ -145,7 +142,7 @@
       </div>
 
 
-
+      <hr>
 
       <div class="containter pe-4">
         <div *ngFor="let item of listaSubTareas" class="row">
@@ -183,8 +180,8 @@
       <p>Plantilla Subtareas</p>
       <div class="containter">
         <div class="row flex-nowrap">
-          <div class="col">
-            <mat-form-field class="example-form-field" appearance="fill">
+          <div class="col-9 px-0">
+            <mat-form-field class="example-form-field">
               <mat-label>Nombre Plantilla</mat-label>
               <input matInput type="text" [(ngModel)]="tituloPlantilla">
               <button matSuffix mat-icon-button aria-label="Clear">
@@ -193,8 +190,8 @@
             </mat-form-field>
 
           </div>
-          <div class="col">
-            <button class="btn btn-success" (click)="guardaPlantilla()">Guardar</button>
+          <div class="col-3">
+            <button class="btn btn-success  mt-2 px-2" (click)="guardaPlantilla()">Guardar</button>
 
           </div>
 

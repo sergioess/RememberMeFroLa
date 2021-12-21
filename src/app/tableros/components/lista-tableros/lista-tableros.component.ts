@@ -32,7 +32,7 @@ export class ListaTablerosComponent implements OnInit {
 
   ngOnInit(): void {
     Utils.prevURL = "tableros";
-    console.log("entre tableros");
+    // console.log("entre tableros");
     if (this.usuarioService.isAuthenticated()) {
       this.traerTablerosUsr();
 
@@ -56,8 +56,8 @@ export class ListaTablerosComponent implements OnInit {
   traerTablerosUsr() {
     this.tableroService.getTablerosUsuario(Utils.currentUser.id).subscribe(tableros => {
       this.listaTableros = tableros;
-      const lista = JSON.stringify(tableros);
-      console.log(lista);
+      // const lista = JSON.stringify(tableros);
+      // console.log(lista);
 
     });
   }

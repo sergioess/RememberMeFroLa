@@ -18,8 +18,8 @@ export class UsuariosService {
   constructor(private http: HttpClient, private router: Router) { }
 
   // url: string = 'https://remembermebackend.herokuapp.com/api/';
-  url: string = 'http://localhost:8000/api/';
-  // url: string = 'https://www.trattoria.com.co/apirem/api/';
+  // url: string = 'http://localhost:8000/api/';
+  url: string = 'https://www.trattoria.com.co/apirem/api/';
 
 
   items: Usuario[] = [];
