@@ -15,56 +15,49 @@
 
 <div class="card mt-2">
   <div class="card-body p-0 ">
-    <div class="container px-3 py-0">
-      <div class="row align-content-between flex-nowrap  p-0 ">
-        <div class="col-11  p-0 " (click)="openDialog(item)">
-          <div class="container p-0">
-            <div class="d-flex py-0 px-2  ms-0">
-              <div class="col-1 ">
-                <img src="{{iconoPrioridad}}" alt="image" style="width:20px">
-              </div>
-              <div class="col-10">
-                {{item.titulo}}
-              </div>
-              <div class="col-1 p-0 m-0 " *ngIf="item.id_tablero" placement="left" ngbTooltip="{{item.tablero}}">
-                <!-- <mat-icon class="icon-display"> table_chart</mat-icon> -->
-                <img class="m-0 p-0" src="./assets/tareatablero.png" width="15" height="15">
-              </div>
+    <div class="container px-1 pt-1">
+      <div class="row align-content-between flex-nowrap m-0 p-0 ">
+        <div class="col-11 m-0 p-0 " (click)="openDialog(item)">
+          <div class="row p-0 m-0 flex-nowrap">
+            <div class="col-1 p-0 m-0 ms-1 ">
+              <img src="{{iconoPrioridad}}" class="center-block" alt="image" style="width:20px; float:left">
             </div>
-
-
+            <div class="col-10">
+              {{item.titulo}}
+            </div>
+            <div class="col-1 p-0 m-0 " *ngIf="item.id_tablero" placement="left" ngbTooltip="{{item.tablero}}">
+              <!-- <mat-icon class="icon-display"> table_chart</mat-icon> -->
+              <img class="m-0 p-0" src="./assets/tareatablero.png" width="15" height="15">
+            </div>
           </div>
 
 
-          <div class="row p-0 flex-nowrap">
-            <div class="col-9 ">
-              <div class="row  justify-content-center py-0 ms-1 flex-nowrap">
-                <div class="col-6 p-0">
-                  <div class="d-flex {{ colorFecha }}" matTooltip="Fecha límite" matTooltipClass="custom-tooltip">
-                    <!-- <mat-icon>date_range</mat-icon> -->
-                    <img class="m-0 ms-2 p-0" src="./assets/tareacal.png" width="15" height="15">
-                    <span class=" mt-1 ms-1"> {{ item.fechalimite | date : 'dd/MM/yyyy' }} </span>
-                  </div>
 
-                </div>
-                <div class="col-6 mt-1 p-0 align-middle text-end {{ colorAtrasada }}"
-                  matTooltip="Tarea que debería estar Finalizada" matTooltipClass="custom-tooltip">
-                  Atrasadas
-                </div>
-              </div>
+
+          <div class="row p-0 ms-0 flex-nowrap">
+            <div class="col-4 d-flex  p-0 d-flex {{ colorFecha }}" matTooltip="Fecha límite"
+              matTooltipClass="custom-tooltip">
+              <!-- <mat-icon>date_range</mat-icon> -->
+              <img class="m-0 ms-1 mt-1 p-0" src="./assets/tareacal.png" width="15" height="15">
+              <span class="mt-1 ms-1"> {{ item.fechalimite | date : 'dd/MM/yyyy' }} </span>
 
             </div>
-            <div class="col-3  align-self-center p-2 ">
-              <div class="row p-0 m-0 border flex-nowrap barraEstado" style="width: 46px; height: 11px;">
-                <div class=" text-danger p-0" (click)="cambiaEstado(1)" style="width: 15px; height: 10px;"
+            <div class="col-4 mt-1 p-0 text-end {{ colorAtrasada }}" matTooltip="Tarea que debería estar Finalizada"
+              matTooltipClass="custom-tooltip">
+              Atrasadas
+            </div>
+
+            <div class="col-2  align-self-center p-2 ">
+              <div class="row p-0 m-0 flex-nowrap barraEstado" style="width: 46px; height: 11px;">
+                <div class=" p-0" (click)="cambiaEstado(1)" style="width: 15px; height: 10px;"
                   [ngStyle]="{'background-color': color1}">
 
                 </div>
-                <div class="text-secondary p-0" (click)="cambiaEstado(2)" style="width: 15px; height: 10px"
+                <div class=" p-0" (click)="cambiaEstado(2)" style="width: 15px; height: 10px"
                   [ngStyle]="{'background-color': color2}">
 
                 </div>
-                <div class="text-warning p-0" (click)="cambiaEstado(3)" style="width: 15px; height: 10px;"
+                <div class=" p-0" (click)="cambiaEstado(3)" style="width: 15px; height: 10px;"
                   [ngStyle]="{'background-color': color3}">
 
                 </div>
